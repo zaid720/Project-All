@@ -14,7 +14,7 @@ import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
 public class FLogin extends javax.swing.JFrame {
-
+    
     private MigLayout layout;
     private PanelCover cover;
     private PanelLoginAndRegister loginAndRegister;
@@ -23,12 +23,12 @@ public class FLogin extends javax.swing.JFrame {
     private final double coverSize = 40;
     private final double loginSize = 60;
     private final DecimalFormat df = new DecimalFormat("##0.###");
-
+    
     public FLogin() {
         initComponents();
         init();
     }
-
+    
     private void init() {
         layout = new MigLayout("fill, insets 0");
         cover = new PanelCover();
@@ -44,13 +44,26 @@ public class FLogin extends javax.swing.JFrame {
                 } else {
                     size += addSize - fraction * addSize;
                 }
-
+                
                 if (isLogin) {
                     fractionCover = 1f - fraction;
                     fractionLogin = fraction;
+                    if (fraction >= 0.5f) {
+                        cover.registerRight(fractionCover * 100);
+                    } else {
+                        cover.loginRight(fractionLogin * 100);
+                    }
                 } else {
                     fractionCover = fraction;
                     fractionLogin = 1f - fraction;
+                    if (fraction <= 0.5f) {
+                        cover.registerLeft(fraction * 100);
+                    } else {
+                        cover.loginLeft((1f - fraction) * 100);
+                    }
+                }
+                if (fraction >= 0.5f) {
+                    loginAndRegister.showRegister(!isLogin);
                 }
                 fractionCover = Double.valueOf(df.format(fractionCover));
                 fractionLogin = Double.valueOf(df.format(fractionLogin));
@@ -58,14 +71,14 @@ public class FLogin extends javax.swing.JFrame {
                 layout.setComponentConstraints(loginAndRegister, "width " + loginSize + "%, pos " + fractionLogin + "al 0 n 100%");
                 bg.revalidate();
             }
-
+            
             @Override
             public void end() {
                 isLogin = !isLogin;
             }
-
+            
         };
-        Animator animator = new Animator(1000, target);
+        Animator animator = new Animator(800, target);
         animator.setAcceleration(0.5f);
         animator.setDeceleration(0.5f);
         animator.setResolution(0); // for smooth animation
@@ -82,7 +95,7 @@ public class FLogin extends javax.swing.JFrame {
             }
         });
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -121,7 +134,7 @@ public class FLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public static void main(String args[]) {
-
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new FLogin().setVisible(true);
