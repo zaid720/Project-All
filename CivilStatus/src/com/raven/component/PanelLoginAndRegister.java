@@ -9,22 +9,28 @@ import com.raven.swing.MyPasswordField;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import com.raven.swing.MyTextField;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import connections.Connect;
 import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.border.Border;
+import javax.swing.JOptionPane;
+import loginAndRegisiter.LoginAndRegisiter;
 import net.miginfocom.swing.MigLayout;
 
 public class PanelLoginAndRegister extends javax.swing.JPanel {
-    
+
+    private Connect connect = new Connect();
+    private LoginAndRegisiter loginAndRegisiter = new LoginAndRegisiter();
+
     public PanelLoginAndRegister() {
         initComponents();
         initLogin();
@@ -32,7 +38,7 @@ public class PanelLoginAndRegister extends javax.swing.JPanel {
         login.setVisible(true);
         register.setVisible(false);
     }
-    
+
     private void initRegister() {
         register.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]25[]push"));
         JLabel label = new JLabel("Create Acount");
@@ -43,6 +49,13 @@ public class PanelLoginAndRegister extends javax.swing.JPanel {
         txtUser.setPrefixIcon(new ImageIcon(getClass().getResource("/com/raven/icon/user.png")));
         txtUser.setHint("Name");
         register.add(txtUser, "w 60%");
+//        JLabel lblUser = new JLabel("");
+////        label.setFont(new Font("sansserif", 1, 30));
+////        label.setForeground(new Color(7, 164, 121));
+//        lblUser.setForeground(Color.red);
+//        lblUser.setVisible(false);
+//        lblUser.setAlignmentX(0);
+//        register.add(lblUser);
         MyTextField txtEmail = new MyTextField();
         txtEmail.setPrefixIcon(new ImageIcon(getClass().getResource("/com/raven/icon/mail.png")));
         txtEmail.setHint("Email");
@@ -55,26 +68,56 @@ public class PanelLoginAndRegister extends javax.swing.JPanel {
         cmd.setBackground(new Color(7, 164, 121));
         cmd.setForeground(new Color(250, 250, 250));
         cmd.setText("SIGN UP");
-        
+        cmd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loginAndRegisiter.setName(txtUser.getText().trim());
+                if (!loginAndRegisiter.getName().isEmpty()) {
+                    txtUser.setHint("Name");
+                    if (loginAndRegisiter.getName().length() >= 3) {
+                        try {
+                            Connection con = connect.con();
+                            Statement stmt = con.createStatement();
+                            ResultSet resultSet = stmt.executeQuery("select * from login");
+                            while (resultSet.next()) {
+
+                            }
+                            con.close();
+                            stmt.close();
+                            resultSet.close();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(register, "It must be name length 3 or more");
+                        txtUser.requestFocus();
+                    }
+                } else {
+                    txtUser.setHint("Please, enter your name");
+                    txtUser.requestFocus();
+                    register.update(getGraphics());
+                }
+            }
+        });
         register.add(cmd, "w 50%, h 40");
     }
-    
+
     private void initLogin() {
         login.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]25[]push"));
         JLabel label = new JLabel("Sign In");
         label.setFont(new Font("sansserif", 1, 30));
         label.setForeground(new Color(7, 164, 121));
         login.add(label);
-        MyTextField txtEmail = new MyTextField();
-        txtEmail.setPrefixIcon(new ImageIcon(getClass().getResource("/com/raven/icon/mail.png")));
-        txtEmail.setHint("Email");
-        login.add(txtEmail, "w 60%");
+        MyTextField txtUser = new MyTextField();
+        txtUser.setPrefixIcon(new ImageIcon(getClass().getResource("/com/raven/icon/user.png")));
+        txtUser.setHint("Name");
+        login.add(txtUser, "w 60%");
         MyPasswordField txtPass = new MyPasswordField();
         txtPass.setPrefixIcon(new ImageIcon(getClass().getResource("/com/raven/icon/pass.png")));
         txtPass.setHint("Password");
         login.add(txtPass, "w 60%");
         JButton cmdForget = new JButton("Forgot your password ?");
-        cmdForget.setForeground(new Color(100,100,100));
+        cmdForget.setForeground(new Color(100, 100, 100));
         cmdForget.setFont(new Font("sansserif", 1, 12));
         cmdForget.setContentAreaFilled(false);
         cmdForget.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -86,9 +129,9 @@ public class PanelLoginAndRegister extends javax.swing.JPanel {
         cmd.setText("SIGN IN");
         login.add(cmd, "w 50%, h 40");
     }
-    
-    public void showRegister(boolean show){
-        if (show){
+
+    public void showRegister(boolean show) {
+        if (show) {
             register.setVisible(true);
             login.setVisible(false);
         } else {
@@ -96,7 +139,7 @@ public class PanelLoginAndRegister extends javax.swing.JPanel {
             login.setVisible(true);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

@@ -79,7 +79,7 @@ public class FLogin extends javax.swing.JFrame {
             
         };
         Animator animator = new Animator(800, target);
-        animator.setAcceleration(0.5f);
+    animator.setAcceleration(0.5f);
         animator.setDeceleration(0.5f);
         animator.setResolution(0); // for smooth animation
 
