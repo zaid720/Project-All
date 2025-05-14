@@ -4,6 +4,8 @@
  */
 package civilstatus;
 
+import frames.FLogin;
+
 /**
  *
  * @author ITS
@@ -14,7 +16,8 @@ public class CivilStatus {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        FLogin login = new FLogin();
+        login.setVisible(true);
     }
     
 }

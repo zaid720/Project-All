@@ -14,8 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import com.raven.swing.MyTextField;
 import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import java.sql.*;
+//import java.sql.ResultSet;
 import connections.Connect;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
@@ -58,7 +58,7 @@ public class PanelLoginAndRegister extends javax.swing.JPanel {
 //        register.add(lblUser);
         MyTextField txtEmail = new MyTextField();
         txtEmail.setPrefixIcon(new ImageIcon(getClass().getResource("/com/raven/icon/mail.png")));
-        txtEmail.setHint("Email");
+        txtEmail.setHint("Email: ali@gmail.com");
         register.add(txtEmail, "w 60%");
         MyPasswordField txtPass = new MyPasswordField();
         txtPass.setPrefixIcon(new ImageIcon(getClass().getResource("/com/raven/icon/pass.png")));
@@ -71,26 +71,51 @@ public class PanelLoginAndRegister extends javax.swing.JPanel {
         cmd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                loginAndRegisiter.setName(txtUser.getText().trim());
-                if (!loginAndRegisiter.getName().isEmpty()) {
+                if (!txtUser.getText().trim().isEmpty()) {
                     txtUser.setHint("Name");
-                    if (loginAndRegisiter.getName().length() >= 3) {
-                        try {
-                            Connection con = connect.con();
-                            Statement stmt = con.createStatement();
-                            ResultSet resultSet = stmt.executeQuery("select * from login");
-                            while (resultSet.next()) {
+                    loginAndRegisiter.setName(txtUser.getText().trim());
+                    if (txtEmail.getText().split("@").length == 2) {
+                        if (txtEmail.getText().split("@")[1].equalsIgnoreCase("gmail.com")) {
+                            loginAndRegisiter.setEmail(txtEmail.getText());
+                            if (txtPass.getText().length() >= 8 & txtPass.getText().length() <= 16) {
+                                loginAndRegisiter.setPassword(txtPass.getText());
 
+                                String query = "INSERT INTO login (Log_Name, Log_Password, Log_Email) VALUES (?, ?, ?)";
+
+                                try {
+                                    Connection con = connect.con();
+                                    PreparedStatement pstmt = con.prepareStatement(query);
+                                    pstmt.setString(1, loginAndRegisiter.getName());
+                                    pstmt.setString(2, loginAndRegisiter.getPassword());
+                                    pstmt.setString(3, loginAndRegisiter.getEmail());
+
+                                    int rowsInserted = pstmt.executeUpdate();
+
+                                    if (rowsInserted > 0) {
+                                        txtUser.setText("");
+                                        txtPass.setText("");
+                                        txtEmail.setText("");
+                                        JOptionPane.showMessageDialog(register, "Successfully created account");
+                                    } else {
+                                        JOptionPane.showMessageDialog(register, "Account creation failed.");
+                                    }
+
+                                } catch (SQLException ex) {
+                                    ex.printStackTrace();
+                                    JOptionPane.showMessageDialog(register, "Error: " + ex.getMessage());
+                                }
+
+                            } else {
+                                JOptionPane.showMessageDialog(register, "It must be passowrd between 8 to 16");
+                                txtPass.requestFocus();
                             }
-                            con.close();
-                            stmt.close();
-                            resultSet.close();
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
+                        } else {
+                            JOptionPane.showMessageDialog(register, "It must be email yourEmial@gmail.com");
+                            txtEmail.requestFocus();
                         }
                     } else {
-                        JOptionPane.showMessageDialog(register, "It must be name length 3 or more");
-                        txtUser.requestFocus();
+                        JOptionPane.showMessageDialog(register, "It must be email yourEmial@gmail.com");
+                        txtEmail.requestFocus();
                     }
                 } else {
                     txtUser.setHint("Please, enter your name");
@@ -127,6 +152,31 @@ public class PanelLoginAndRegister extends javax.swing.JPanel {
         cmd.setBackground(new Color(7, 164, 121));
         cmd.setForeground(new Color(250, 250, 250));
         cmd.setText("SIGN IN");
+        cmd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean check = true;
+                try {
+                    Connection con = connect.con();
+                    Statement stmt = con.createStatement();
+                    ResultSet set = stmt.executeQuery("select * from login");
+                    while (set.next()){
+                        if (txtUser.getText().trim().equals(set.getString("Log_Name")) & txtPass.getText().trim().equals(set.getString("Log_Password"))){
+                            JOptionPane.showMessageDialog(register, "Welcome to Civil Satus" + txtUser.getText());
+                            check = false;
+                            break;
+                        }
+                    }
+                    if (check){
+                        JOptionPane.showMessageDialog(register, "Please, check from name or password");
+                        txtUser.requestFocus();
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(register, "Error: " + ex.getMessage());
+                }
+            }
+        });
         login.add(cmd, "w 50%, h 40");
     }
 

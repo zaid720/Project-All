@@ -10,10 +10,9 @@ package loginAndRegisiter;
  */
 public class LoginAndRegisiter {
     
-    private String name, email;
-    private int password;
+    private String name, email, password;
 
-    public LoginAndRegisiter(String name, String email, int password) {
+    public LoginAndRegisiter(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -38,14 +37,12 @@ public class LoginAndRegisiter {
         this.email = email;
     }
 
-    public int getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(int password) {
+    public void setPassword(String password) {
         this.password = password;
     }
-    
-     
-    
+
 }
