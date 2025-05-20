@@ -10,7 +10,6 @@ import javaswingdev.GoogleMaterialDesignIcon;
 import javaswingdev.GoogleMaterialIcon;
 import javaswingdev.GradientType;
 import javaswingdev.system.SystemColor;
-import javax.swing.SwingConstants;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 

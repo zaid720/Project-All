@@ -5,18 +5,17 @@
 package Models;
 
 import java.time.LocalDateTime;
+import personal.Personal;
 
 /**
  *
  * @author ITS
  */
-public class ModelUser {
-    
-    private int id;
+public class MUser extends Personal {
+
     private String username, password, role, full_name, phone;
-    private LocalDateTime created_at;
 
-    public ModelUser(String username, String password, String role, String full_name, String phone) {
+    public MUser(String username, String password, String role, String full_name, String phone) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -24,18 +23,13 @@ public class ModelUser {
         this.phone = phone;
     }
 
-    public ModelUser(int id, String username, String password, String role, String full_name, String phone, LocalDateTime created_at) {
-        this.id = id;
+    public MUser(int id, String username, String password, String role, String full_name, String phone, LocalDateTime created_at) {
+        super(id, created_at);
         this.username = username;
         this.password = password;
         this.role = role;
         this.full_name = full_name;
         this.phone = phone;
-        this.created_at = created_at;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getUsername() {
@@ -58,10 +52,4 @@ public class ModelUser {
         return phone;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
-    }
-    
-    
-    
 }

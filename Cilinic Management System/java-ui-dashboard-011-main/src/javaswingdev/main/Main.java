@@ -7,6 +7,7 @@ import javaswingdev.form.Form_Dashboard;
 import javaswingdev.form.Form_Empty;
 import javaswingdev.menu.EventMenuSelected;
 import direction.Direction;
+import javaswingdev.swing.Theme.ThemeToggleButton;
 
 public class Main extends javax.swing.JFrame {
 
@@ -21,6 +22,8 @@ public class Main extends javax.swing.JFrame {
     private void init() {
         main = this;
         titleBar.initJFram(this);
+        ThemeToggleButton button = new ThemeToggleButton();
+//        titleBar.add(button);
         Direction.applyComponentOrientationRecursively(this, ComponentOrientation.RIGHT_TO_LEFT);
         menu.addEvent(new EventMenuSelected() {
             @Override

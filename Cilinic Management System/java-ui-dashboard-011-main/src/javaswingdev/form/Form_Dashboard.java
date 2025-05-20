@@ -1,31 +1,63 @@
 package javaswingdev.form;
 
-import Controls.ControlUser;
-import Models.ModelUser;
+import Controls.CtlAppointment;
+import Controls.CtlPatient;
+import Controls.CtlVisit;
+import Models.MPatient;
 import direction.Direction;
 import java.awt.ComponentOrientation;
 import javaswingdev.card.ModelCard;
+import javaswingdev.swing.table.Table;
+import java.time.LocalDateTime;
 
 public class Form_Dashboard extends javax.swing.JPanel {
-
+    
+    private CtlPatient patient = new CtlPatient();
+    private CtlAppointment appointment = new CtlAppointment();
+    private CtlVisit visit = new CtlVisit();
+    // Variables declaration - do not modify
+    private Table tblPatients = new Table();
+    // End of variables declaration
+    
     public Form_Dashboard() {
-        initComponents();
+        initComponents();        
+        tblPatients.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "#", "الاسم", "العمر", "الجنس", "رقم الهاتف", "العنوان", "تاريخ الإنشاء", "تاريخ الموعد"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         init();
     }
 
     private void init() {
         Direction.applyComponentOrientationRecursively(this, ComponentOrientation.RIGHT_TO_LEFT);
-        table.fixTable(jScrollPane1);
-        for (ModelUser user :  new ControlUser().qeury()) {
-            table.addRow(new Object[]{user.getId(), user.getUsername(), user.getPhone(), user.getRole(), user.getFull_name(), user.getCreated_at()} );
+        tblPatientsAppointments.fixTable(jScrollPane1);
+        for (String[] user : patient.upcomingAppointments()) {
+            tblPatientsAppointments.addRow(new String[]{user[0], user[1]});
         }
-
-        //  init card data
-        card1.setData(new ModelCard(null, null, null, "500.00", "عدد المرضى"));
-        card2.setData(new ModelCard(null, null, null, "800.00", "عدد المواعيد"));
-        card3.setData(new ModelCard(null, null, null, "300.00", "عدد الزيارات"));
+        
+        for (MPatient read : patient.query()){
+            tblPatients.addRow(new Object[]{read.getId(), read.getFull_name(), read.getAge(), read.getGender(), read.getPhone(), read.getAddress(), read.getMedicat(), read.getCreated_at().toLocalDate()});
+        }
+       
+       
+        
+        card1.setData(new ModelCard(null, null, null, patient.count().toString(), "عدد المرضى"));
+        card2.setData(new ModelCard(null, null, null, appointment.count().toString(), "عدد المواعيد"));
+        card3.setData(new ModelCard(null, null, null, visit.count().toString(), "عدد الزيارات"));
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -35,7 +67,8 @@ public class Form_Dashboard extends javax.swing.JPanel {
         card3 = new javaswingdev.card.Card();
         roundPanel1 = new javaswingdev.swing.RoundPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table = new javaswingdev.swing.table.Table();
+        tblPatientsAppointments = new javaswingdev.swing.table.Table();
+        jLabel1 = new javax.swing.JLabel();
 
         setOpaque(false);
 
@@ -51,23 +84,23 @@ public class Form_Dashboard extends javax.swing.JPanel {
         roundPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         roundPanel1.setRound(10);
 
-        table.setModel(new javax.swing.table.DefaultTableModel(
+        tblPatientsAppointments.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "#", "الاسم", "رقم الهاتف", "نوع المستخدم", "اسم الستخدم الكامل", "تاريخ الإنشاء"
+                "اسم المریض", "تاريخ الموعد"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(table);
+        jScrollPane1.setViewportView(tblPatientsAppointments);
 
         javax.swing.GroupLayout roundPanel1Layout = new javax.swing.GroupLayout(roundPanel1);
         roundPanel1.setLayout(roundPanel1Layout);
@@ -86,21 +119,30 @@ public class Form_Dashboard extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel1.setFont(new java.awt.Font("Simplified Arabic", 1, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel1.setText("المواعيد القادمة:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(card1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(30, 30, 30)
-                        .addComponent(card2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(30, 30, 30)
-                        .addComponent(card3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(30, 30, 30))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(card1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(30, 30, 30)
+                                .addComponent(card2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(30, 30, 30)
+                                .addComponent(card3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(30, 30, 30))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,9 +152,11 @@ public class Form_Dashboard extends javax.swing.JPanel {
                     .addComponent(card3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(card2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(card1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addGap(12, 12, 12)
                 .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(30, 30, 30))
+                .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -120,8 +164,9 @@ public class Form_Dashboard extends javax.swing.JPanel {
     private javaswingdev.card.Card card1;
     private javaswingdev.card.Card card2;
     private javaswingdev.card.Card card3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javaswingdev.swing.RoundPanel roundPanel1;
-    private javaswingdev.swing.table.Table table;
+    private javaswingdev.swing.table.Table tblPatientsAppointments;
     // End of variables declaration//GEN-END:variables
 }

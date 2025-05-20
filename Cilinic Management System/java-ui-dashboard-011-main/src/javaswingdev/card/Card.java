@@ -113,7 +113,7 @@ public class Card extends javax.swing.JPanel {
         lbValues.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
         lbValues.setForeground(new java.awt.Color(128, 128, 128));
         lbValues.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lbValues.setText("$ 0.00");
+        lbValues.setText("0");
 
         lbDescription.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         lbDescription.setForeground(new java.awt.Color(153, 153, 153));

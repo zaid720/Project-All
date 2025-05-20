@@ -4,8 +4,8 @@
  */
 package Views;
 
-import Controls.ControlUser;
-import Models.ModelUser;
+import Controls.CtlUser;
+import Models.MUser;
 import java.awt.Image;
 import java.util.ArrayList;
 import javaswingdev.main.Main;
@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
 
-    private ControlUser user = new ControlUser();
+    private CtlUser user = new CtlUser();
 
     /**
      * Creates new form Login
@@ -175,9 +175,9 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignInActionPerformed
-        ArrayList<ModelUser> array = user.qeuryLogin(txtUser.getText().trim());
+        ArrayList<MUser> array = user.qeuryLogin(txtUser.getText().trim());
         
-        for (ModelUser read : array) {
+        for (MUser read : array) {
             if (read.getPassword().equals(txtPass.getText())) {
                 txtUser.setText("");                   
                 txtPass.setText("");
