@@ -1,7 +1,9 @@
 package javaswingdev.swing.table;
 
+import direction.Direction;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import javaswingdev.swing.scroll.ScrollBar;
 import javaswingdev.system.SystemColor;
 import javax.swing.JPanel;
@@ -14,6 +16,7 @@ public class Table extends JTable {
 
     public Table() {
         setShowHorizontalLines(true);
+        Direction.applyComponentOrientationRecursively(this, ComponentOrientation.RIGHT_TO_LEFT);
         setGridColor(new Color(230, 230, 230));
         setRowHeight(40);
         getTableHeader().setReorderingAllowed(false);
@@ -28,6 +31,7 @@ public class Table extends JTable {
             @Override
             public Component getTableCellRendererComponent(JTable jtable, Object o, boolean selected, boolean bln1, int i, int i1) {
                 Component com = super.getTableCellRendererComponent(jtable, o, selected, bln1, i, i1);
+                com.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
                 com.setBackground(Color.WHITE);
                 setBorder(noFocusBorder);
                 if (selected) {

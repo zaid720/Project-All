@@ -1,22 +1,27 @@
 package javaswingdev.main;
 
+import Views.Login;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import javaswingdev.form.Form_Dashboard;
 import javaswingdev.form.Form_Empty;
 import javaswingdev.menu.EventMenuSelected;
+import direction.Direction;
 
 public class Main extends javax.swing.JFrame {
-    
+
     private static Main main;
-    
+
     public Main() {
         initComponents();
         init();
+
     }
-    
+
     private void init() {
         main = this;
         titleBar.initJFram(this);
+        Direction.applyComponentOrientationRecursively(this, ComponentOrientation.RIGHT_TO_LEFT);
         menu.addEvent(new EventMenuSelected() {
             @Override
             public void menuSelected(int index, int indexSubMenu) {
@@ -29,18 +34,18 @@ public class Main extends javax.swing.JFrame {
         });
         menu.setSelectedIndex(0, 0);
     }
-    
+
     public void showForm(Component com) {
         body.removeAll();
         body.add(com);
         body.repaint();
         body.revalidate();
     }
-    
+
     public static Main getMain() {
         return main;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -72,8 +77,8 @@ public class Main extends javax.swing.JFrame {
             panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMenuLayout.createSequentialGroup()
                 .addComponent(titleBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -141,6 +146,7 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+//                new Login().setVisible(true);
                 new Main().setVisible(true);
             }
         });

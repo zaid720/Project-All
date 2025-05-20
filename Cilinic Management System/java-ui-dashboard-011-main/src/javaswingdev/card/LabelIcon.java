@@ -1,6 +1,8 @@
 package javaswingdev.card;
 
+import direction.Direction;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -30,6 +32,7 @@ public class LabelIcon extends JLabel {
     private Color color2 = SystemColor.MAIN_COLOR_2;
 
     public LabelIcon() {
+        Direction.applyComponentOrientationRecursively(this, ComponentOrientation.RIGHT_TO_LEFT);
     }
 
     @Override

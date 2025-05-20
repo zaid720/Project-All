@@ -1,6 +1,8 @@
 package javaswingdev.swing.table;
 
+import direction.Direction;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Graphics;
 import javax.swing.JLabel;
@@ -10,6 +12,7 @@ public class TableHeader extends JLabel {
 
     public TableHeader(String text) {
         super(text);
+        Direction.applyComponentOrientationRecursively(this, ComponentOrientation.RIGHT_TO_LEFT);
         setOpaque(true);
         setBackground(Color.WHITE);
         setFont(new Font("sansserif", 1, 12));

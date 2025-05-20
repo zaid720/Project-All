@@ -1,6 +1,8 @@
 package javaswingdev.card;
 
+import direction.Direction;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -23,6 +25,7 @@ public class Card extends javax.swing.JPanel {
 
     private void init() {
         setOpaque(false);
+        Direction.applyComponentOrientationRecursively(this, ComponentOrientation.RIGHT_TO_LEFT);
         setBackground(Color.WHITE);
         setIcon(GoogleMaterialDesignIcon.AUTORENEW);
     }

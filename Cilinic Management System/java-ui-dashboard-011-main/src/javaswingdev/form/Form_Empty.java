@@ -1,9 +1,13 @@
 package javaswingdev.form;
 
+import direction.Direction;
+import java.awt.ComponentOrientation;
+
 public class Form_Empty extends javax.swing.JPanel {
 
     public Form_Empty(String name) {
         initComponents();
+        Direction.applyComponentOrientationRecursively(this, ComponentOrientation.RIGHT_TO_LEFT);
         lb.setText("Form " + name);
     }
 

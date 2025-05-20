@@ -1,5 +1,9 @@
 package javaswingdev.form;
 
+import Controls.ControlUser;
+import Models.ModelUser;
+import direction.Direction;
+import java.awt.ComponentOrientation;
 import javaswingdev.card.ModelCard;
 
 public class Form_Dashboard extends javax.swing.JPanel {
@@ -10,26 +14,16 @@ public class Form_Dashboard extends javax.swing.JPanel {
     }
 
     private void init() {
+        Direction.applyComponentOrientationRecursively(this, ComponentOrientation.RIGHT_TO_LEFT);
         table.fixTable(jScrollPane1);
-        table.addRow(new Object[]{"1", "Mike Bhand", "mikebhand@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"2", "Andrew Strauss", "andrewstrauss@gmail.com", "Editor", "25 Apr,2018"});
-        table.addRow(new Object[]{"3", "Ross Kopelman", "rosskopelman@gmail.com", "Subscriber", "25 Apr,2018"});
-        table.addRow(new Object[]{"4", "Mike Hussy", "mikehussy@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"5", "Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"6", "Andrew Strauss", "andrewstrauss@gmail.com", "Editor", "25 Apr,2018"});
-        table.addRow(new Object[]{"7", "Ross Kopelman", "rosskopelman@gmail.com", "Subscriber", "25 Apr,2018"});
-        table.addRow(new Object[]{"8", "Mike Hussy", "mikehussy@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"9", "Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"10", "Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"11", "Andrew Strauss", "andrewstrauss@gmail.com", "Editor", "25 Apr,2018"});
-        table.addRow(new Object[]{"12", "Ross Kopelman", "rosskopelman@gmail.com", "Subscriber", "25 Apr,2018"});
-        table.addRow(new Object[]{"13", "Mike Hussy", "mikehussy@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"14", "Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018"});
+        for (ModelUser user :  new ControlUser().qeury()) {
+            table.addRow(new Object[]{user.getId(), user.getUsername(), user.getPhone(), user.getRole(), user.getFull_name(), user.getCreated_at()} );
+        }
 
         //  init card data
-        card1.setData(new ModelCard(null, null, null, "$ 500.00", "Report Income Monthly"));
-        card2.setData(new ModelCard(null, null, null, "$ 800.00", "Report Expense Monthly"));
-        card3.setData(new ModelCard(null, null, null, "$ 300.00", "Report Profit Monthly"));
+        card1.setData(new ModelCard(null, null, null, "500.00", "عدد المرضى"));
+        card2.setData(new ModelCard(null, null, null, "800.00", "عدد المواعيد"));
+        card3.setData(new ModelCard(null, null, null, "300.00", "عدد الزيارات"));
     }
 
     @SuppressWarnings("unchecked")
@@ -62,11 +56,11 @@ public class Form_Dashboard extends javax.swing.JPanel {
 
             },
             new String [] {
-                "#", "Name", "Email", "Position", "Date Join"
+                "#", "الاسم", "رقم الهاتف", "نوع المستخدم", "اسم الستخدم الكامل", "تاريخ الإنشاء"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
